@@ -1,0 +1,65 @@
+
+==== NAME ====
+
+Posy::Plugin::TextToHTML - Posy plugin to convert plain text files to HTML
+
+
+==== VERSION ====
+
+This describes version ``0.40'' of Posy::Plugin::TextToHTML.
+
+
+==== DESCRIPTION ====
+
+This uses the HTML::TextToHTML module (as used by the txt2html script) to
+convert the body of an entry from text into HTML. This checks the extension
+of the entry file, and if it is 'txt', then it will convert the entry.
+
+This basically replaces the 'parse_entry' method, and calls the parent
+method for anything other than text.
+
+
+==   Configuration   ==
+
+This expects configuration settings in the $self->{config} hash, which, in
+the default Posy setup, can be defined in the main "config" file in the data
+directory.
+
+``txt2html_options''
+Set the options for the text-to-HTML processing. See HTML::TextToHTML for
+details. Certain options are meaningless in this context and will be
+ignored, since this is not being processed as a full file, but as just body
+content. Therefore options such as 'append_file', 'prepend_file' and
+'append_head' will not work, as well as options which refer to doing things
+to the headers. But that's okay, since you can do things like that with
+flavours and other plugins.
+
+Give the options as one long space-separated string, with each option name
+followed by its value. For example:
+
+txt2html_options: xhtml 1 escape_HTML_chars 0 make_anchors 0
+
+
+==== REQUIRES ====
+
+    Posy
+    Posy::Core
+    HTML::TextToHTML
+
+    Test::More
+
+
+==== AUTHOR ====
+
+    Kathryn Andersen (RUBYKAT)
+    perlkat AT katspace dot com
+    http://www.katspace.com
+
+
+==== COPYRIGHT AND LICENCE ====
+
+Copyright (c) 2004-2005 by Kathryn Andersen
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
