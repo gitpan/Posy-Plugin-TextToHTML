@@ -7,11 +7,11 @@ Posy::Plugin::TextToHTML - Posy plugin to convert plain text files to HTML.
 
 =head1 VERSION
 
-This describes version B<0.61> of Posy::Plugin::TextToHTML.
+This describes version B<0.6101> of Posy::Plugin::TextToHTML.
 
 =cut
 
-our $VERSION = '0.61';
+our $VERSION = '0.6101';
 
 =head1 SYNOPSIS
 
@@ -143,6 +143,14 @@ sub parse_entry {
 	    {
 		my @options = split(/\s+/, $self->{config}->{txt2html_options});
 		%options = (@options);
+		# convert '' options to be empty strings
+		while (my ($key, $val) = each %options)
+		{
+		    if ($val eq "''")
+		    {
+			$options{$key} = '';
+		    }
+		}
 		$self->{config}->{txt2html_options} = \%options;
 	    }
 	    else # assume we've converted it already

@@ -8,7 +8,7 @@ my $builder = Module::Build->new(
     dist_author         => 'Kathryn Andersen',
     dist_version_from   => 'lib/Posy/Plugin/TextToHTML.pm',
 	requires            => {
-	'Posy' => 0.90,
+	'Posy' => 0.92,
 	'HTML::TextToHTML' => 2.33,
 	},
     build_requires => {

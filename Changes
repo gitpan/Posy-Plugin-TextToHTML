@@ -1,6 +1,13 @@
 Revision history for Posy-Plugin-TextToHTML
 ===========================================
 
+0.6101 Sun 20 March 2005
+------------------------
+
+  * (20 Mar 2005) fix parsing of txt2html_options
+  	Before, one wasn't able to give empty options, as they were treated
+  as an option containing '' rather than as the empty string.
+
 0.61 Sun 06 February 2005
 -------------------------
 
