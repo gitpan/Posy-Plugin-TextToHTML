@@ -3,15 +3,15 @@ use strict;
 
 =head1 NAME
 
-Posy::Plugin::TextToHTML - Posy plugin to convert plain text files to HTML
+Posy::Plugin::TextToHTML - Posy plugin to convert plain text files to HTML.
 
 =head1 VERSION
 
-This describes version B<0.40> of Posy::Plugin::TextToHTML.
+This describes version B<0.61> of Posy::Plugin::TextToHTML.
 
 =cut
 
-our $VERSION = '0.40';
+our $VERSION = '0.61';
 
 =head1 SYNOPSIS
 
@@ -53,6 +53,29 @@ name followed by its value.  For example:
 
 txt2html_options: xhtml 1 escape_HTML_chars 0 make_anchors 0
 
+=item B<txt2html_parent>
+
+Pass the text-to-html processing to the parent module. (default: false)
+
+If true, this will just call the parent parse_entry; thus some conversion
+will happen, but the Posy::Core conversion just sticks PRE tags around
+everything, very simple.
+
+Use this to disable needless lengthy processing if, for example,
+you are only displaying a "short body" (see L<Posy::Plugin::ShortBody>)
+for 'chrono' or 'category' path-types, where many entry files are
+being processed.  One could thus set this to true (1) in the
+chrono.config file, for example.  (See also L</txt2html_raw_flavour>)
+
+=item B<txt2html_raw_flavour>
+
+txt2html_raw_flavour: txt
+
+If txt2html_parent is false, and the current flavour matches this string,
+then do no processing at all; set the entry body to be the same as the raw
+entry.  This is useful if, for example, one has a 'txt' flavour which just
+wants plain text to display.
+
 =back
 
 =cut
@@ -71,6 +94,8 @@ sub init {
     $self->SUPER::init();
 
     # set defaults
+    $self->{config}->{txt2html_parent} = 0
+	if (!defined $self->{config}->{txt2html_parent});
     $self->{config}->{txt2html_options} = 
     'xhtml 1 make_anchors 0'
 	if (!defined $self->{config}->{txt2html_options});
@@ -96,7 +121,18 @@ sub parse_entry {
 
     my $id = $current_entry->{id};
     my $file_type = $self->{file_extensions}->{$self->{files}->{$id}->{ext}};
-    if ($file_type eq 'text')
+    if ($self->{config}->{txt2html_parent})
+    {
+	$self->SUPER::parse_entry($flow_state, $current_entry, $entry_state);
+    }
+    elsif ($file_type eq 'text'
+	and $self->{config}->{txt2html_raw_flavour}
+	and ($self->{path}->{flavour} =~
+	     m#$self->{config}->{txt2html_raw_flavour}#))
+    {
+	$current_entry->{body} = $current_entry->{raw};
+    }
+    elsif ($file_type eq 'text')
     {
 	require HTML::TextToHTML;
 
@@ -135,6 +171,74 @@ sub parse_entry {
     }
     1;
 } # parse_entry
+
+=head1 INSTALLATION
+
+Installation needs will vary depending on the particular setup a person
+has.
+
+=head2 Administrator, Automatic
+
+If you are the administrator of the system, then the dead simple method of
+installing the modules is to use the CPAN or CPANPLUS system.
+
+    cpanp -i Posy::Plugin::TextToHTML
+
+This will install this plugin in the usual places where modules get
+installed when one is using CPAN(PLUS).
+
+=head2 Administrator, By Hand
+
+If you are the administrator of the system, but don't wish to use the
+CPAN(PLUS) method, then this is for you.  Take the *.tar.gz file
+and untar it in a suitable directory.
+
+To install this module, run the following commands:
+
+    perl Build.PL
+    ./Build
+    ./Build test
+    ./Build install
+
+Or, if you're on a platform (like DOS or Windows) that doesn't like the
+"./" notation, you can do this:
+
+   perl Build.PL
+   perl Build
+   perl Build test
+   perl Build install
+
+=head2 User With Shell Access
+
+If you are a user on a system, and don't have root/administrator access,
+you need to install Posy somewhere other than the default place (since you
+don't have access to it).  However, if you have shell access to the system,
+then you can install it in your home directory.
+
+Say your home directory is "/home/fred", and you want to install the
+modules into a subdirectory called "perl".
+
+Download the *.tar.gz file and untar it in a suitable directory.
+
+    perl Build.PL --install_base /home/fred/perl
+    ./Build
+    ./Build test
+    ./Build install
+
+This will install the files underneath /home/fred/perl.
+
+You will then need to make sure that you alter the PERL5LIB variable to
+find the modules, and the PATH variable to find the scripts (posy_one,
+posy_static).
+
+Therefore you will need to change:
+your path, to include /home/fred/perl/script (where the script will be)
+
+	PATH=/home/fred/perl/script:${PATH}
+
+the PERL5LIB variable to add /home/fred/perl/lib
+
+	PERL5LIB=/home/fred/perl/lib:${PERL5LIB}
 
 =head1 REQUIRES
 

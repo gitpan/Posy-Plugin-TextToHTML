@@ -1,6 +1,37 @@
 Revision history for Posy-Plugin-TextToHTML
 ===========================================
 
+0.61 Sun 06 February 2005
+-------------------------
+
+  * (6 Feb 2005) added INSTALL docs
+
+  * (5 Feb 2005) fix to txt2html_parent default
+
+0.60 Fri 04 February 2005
+-------------------------
+
+  * (4 Feb 2005) raw non-processing
+  	Changed txt2html_on to txt2hmtl_parent (with reversed sense
+  and more explicit documentation as to what is going on).
+  	Added txt2html_raw_flavour to save time when one is displaying
+  plain text files as plain text; eg you have a 'txt' flavour and you
+  want to display the raw text rather than converting it to HTML.
+  One could do this before by using $entry_raw, but it still generated
+  the HTML anyway.  This enables one to disable the processing on a
+  per-flavour basis.
+
+0.50 Thu 03 February 2005
+-------------------------
+
+  * (3 Feb 2005) removed Makefile.PL
+
+  * (3 Feb 2005) make this processing optional
+  	Added a config option 'txt2html_on' which is by default true,
+  but can be set to false if the user doesn't want to use this plugin
+  to process this file at this time.  Useful for 'chrono' or 'category'
+  displays where one is only displaying a short body anyway.
+
 0.40 Sat 15 January 2005
 ------------------------
 
