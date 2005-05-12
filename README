@@ -6,7 +6,7 @@ Posy::Plugin::TextToHTML - Posy plugin to convert plain text files to HTML.
 
 ==== VERSION ====
 
-This describes version ``0.6101'' of Posy::Plugin::TextToHTML.
+This describes version ``0.62'' of Posy::Plugin::TextToHTML.
 
 
 ==== DESCRIPTION ====

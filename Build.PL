@@ -8,8 +8,8 @@ my $builder = Module::Build->new(
     dist_author         => 'Kathryn Andersen',
     dist_version_from   => 'lib/Posy/Plugin/TextToHTML.pm',
 	requires            => {
-	'Posy' => 0.92,
-	'HTML::TextToHTML' => 2.33,
+	'Posy' => 0.95,
+	'HTML::TextToHTML' => 2.41,
 	},
     build_requires => {
         'Test::More' => 0,
@@ -17,3 +17,7 @@ my $builder = Module::Build->new(
 );
 
 $builder->create_build_script();
+# create the Makefile.PL
+use Module::Build::Compat;
+print "creating Makefile.PL\n";
+Module::Build::Compat->create_makefile_pl('passthrough', $builder);
