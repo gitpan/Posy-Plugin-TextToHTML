@@ -1,17 +1,17 @@
---- #YAML:1.0
+---
 name: Posy-Plugin-TextToHTML
-version: 0.62
+version: 0.63
 author:
   - Kathryn Andersen
 abstract: Posy plugin to convert plain text files to HTML.
 license: perl
 requires:
   HTML::TextToHTML: 2.41
-  Posy: 0.95
+  Posy: 0.98
 build_requires:
   Test::More: 0
 provides:
   Posy::Plugin::TextToHTML:
     file: lib/Posy/Plugin/TextToHTML.pm
-    version: 0.62
-generated_by: Module::Build version 0.261
+    version: 0.63
+generated_by: Module::Build version 0.2611

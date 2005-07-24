@@ -1,6 +1,14 @@
 Revision history for Posy-Plugin-TextToHTML
 ===========================================
 
+0.63 Sat 23 July 2005
+---------------------
+
+  * (23 Jul 2005) changed config variable
+  	Changed the txt2html_parent config variable to txt2html_simple,
+  because if even I, who wrote this module, kept on forgetting what it
+  was called and what it meant, nobody else was going to remember either.
+
 0.62 Thu 12 May 2005
 --------------------
 

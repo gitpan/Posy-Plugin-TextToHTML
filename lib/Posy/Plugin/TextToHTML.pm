@@ -7,11 +7,11 @@ Posy::Plugin::TextToHTML - Posy plugin to convert plain text files to HTML.
 
 =head1 VERSION
 
-This describes version B<0.62> of Posy::Plugin::TextToHTML.
+This describes version B<0.63> of Posy::Plugin::TextToHTML.
 
 =cut
 
-our $VERSION = '0.62';
+our $VERSION = '0.63';
 
 =head1 SYNOPSIS
 
@@ -53,9 +53,10 @@ name followed by its value.  For example:
 
 txt2html_options: xhtml 1 escape_HTML_chars 0 make_anchors 0
 
-=item B<txt2html_parent>
+=item B<txt2html_simple>
 
-Pass the text-to-html processing to the parent module. (default: false)
+Don't do HTML::TextToHTML processing, just fall back on the default
+simple processing. (default: false)
 
 If true, this will just call the parent parse_entry; thus some conversion
 will happen, but the Posy::Core conversion just sticks PRE tags around
@@ -71,7 +72,7 @@ chrono.config file, for example.  (See also L</txt2html_raw_flavour>)
 
 txt2html_raw_flavour: txt
 
-If txt2html_parent is false, and the current flavour matches this string,
+If txt2html_simple is false, and the current flavour matches this string,
 then do no processing at all; set the entry body to be the same as the raw
 entry.  This is useful if, for example, one has a 'txt' flavour which just
 wants plain text to display.
@@ -94,8 +95,8 @@ sub init {
     $self->SUPER::init();
 
     # set defaults
-    $self->{config}->{txt2html_parent} = 0
-	if (!defined $self->{config}->{txt2html_parent});
+    $self->{config}->{txt2html_simple} = 0
+	if (!defined $self->{config}->{txt2html_simple});
     $self->{config}->{txt2html_options} = 
     'xhtml 1 make_anchors 0'
 	if (!defined $self->{config}->{txt2html_options});
@@ -121,7 +122,7 @@ sub parse_entry {
 
     my $id = $current_entry->{id};
     my $file_type = $self->{file_extensions}->{$self->{files}->{$id}->{ext}};
-    if ($self->{config}->{txt2html_parent})
+    if ($self->{config}->{txt2html_simple})
     {
 	$self->SUPER::parse_entry($flow_state, $current_entry, $entry_state);
     }

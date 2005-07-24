@@ -6,7 +6,7 @@ Posy::Plugin::TextToHTML - Posy plugin to convert plain text files to HTML.
 
 ==== VERSION ====
 
-This describes version ``0.62'' of Posy::Plugin::TextToHTML.
+This describes version ``0.63'' of Posy::Plugin::TextToHTML.
 
 
 ==== DESCRIPTION ====
@@ -39,8 +39,9 @@ followed by its value. For example:
 
 txt2html_options: xhtml 1 escape_HTML_chars 0 make_anchors 0
 
-``txt2html_parent''
-Pass the text-to-html processing to the parent module. (default: false)
+``txt2html_simple''
+Don't do HTML::TextToHTML processing, just fall back on the default simple
+processing. (default: false)
 
 If true, this will just call the parent parse_entry; thus some conversion
 will happen, but the Posy::Core conversion just sticks PRE tags around
@@ -55,7 +56,7 @@ thus set this to true (1) in the chrono.config file, for example. (See also
 ``txt2html_raw_flavour''
 txt2html_raw_flavour: txt
 
-If txt2html_parent is false, and the current flavour matches this string,
+If txt2html_simple is false, and the current flavour matches this string,
 then do no processing at all; set the entry body to be the same as the raw
 entry. This is useful if, for example, one has a 'txt' flavour which just
 wants plain text to display.
